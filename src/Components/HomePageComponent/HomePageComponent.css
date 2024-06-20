@@ -11,7 +11,11 @@ body {
     padding: 0;
     font-family: "Ubuntu", sans-serif;
 }
+.movies
+{
+    background-color: white !important;
 
+}
 a {
     text-decoration: none;
 }
@@ -68,18 +72,17 @@ button {
     color: white;
 }
 
-.log-in {
-    font-weight: 500;
-    padding: 12px 22px;
+.log-out {
+    /* font-weight: 500;
+    padding: 12px 22px; */
     background-color: transparent;
     color: #999999;
-    border-radius: 10px;
+    /* border-radius: 10px;
     border: 2px solid #0aa5ff;
-    transition: 0.2s;
+    transition: 0.2s; */
 }
 
-.log-in:hover {
-    background-color: #0aa5ff;
+.log-out:hover {
     color: white;
 }
 
@@ -101,14 +104,14 @@ button {
 }
 
 input[type="text"] {
-    padding: 1%;
-    width: 30%;
+    padding: 0.8%;
+    width: 24%;
     background: transparent;
     border: 2px white solid;
     outline: none;
     border-radius: 20px;
     color:white;
-    margin-left: 26%;
+    margin-left: 40%;
     /* box-shadow: 0 0 10px white; */
 }
 

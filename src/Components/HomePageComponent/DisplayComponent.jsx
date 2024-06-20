@@ -7,7 +7,7 @@ const DisplayComponent = ({ item }) => {
       <img src={item.movieImage} width="200px" height="300px" style={{ verticalAlign: "top" }}/>
 
       <div className="sub-container">
-      <i class="bi bi-star-fill"></i>
+      <i className="bi bi-star-fill text-danger"></i>
       <span style={{marginLeft:"10px"}}>{item.imdbRating}/10</span>
       <span style={{marginLeft:"10px"}}>{item.votes} Votes</span>
       </div>

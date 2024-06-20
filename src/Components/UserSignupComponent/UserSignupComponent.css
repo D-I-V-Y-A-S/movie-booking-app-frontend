@@ -1,30 +1,40 @@
-body{
-    background: url('movie.jpg');
-    background-size: cover; 
-}
-
-.form-login {
+.form{
     background-color:crimson;
-    border: 2px solid black;
     width: 30%; 
     border-radius:20px;
-    padding: 20px;
-    margin-left:58%;
-    margin-top:8%;
+    padding: 10px;
+    margin-left:60%;
+    margin-top:3%;
     border:2px solid white;
     box-shadow: -3px -3px 10px white,3px 3px 10px white;
-
   }
   
-  .form-login input {
+  .form input[type=text]
+  {
     width: 100%; 
     margin-bottom: 20px;
     padding: 13px; 
+    background-color: white;
+    box-sizing: border-box; 
+    border-radius:20px;
+    border:none;
+    outline:none;
+    margin-left:0;
+  }
+
+  .form input[type="email"],
+  .form input[type="password"]
+  {
+    width: 100%; 
+    margin-bottom: 20px;
+    padding: 13px; 
+    background-color: white;
     box-sizing: border-box; 
     border-radius:20px;
     border:none;
     outline:none;
   }
+
   
   .box{
     padding:2%;
@@ -42,5 +52,6 @@ body{
   {
     width:95%;
     padding: 5%;
+    cursor:pointer;
     border-radius: 20px;
   }

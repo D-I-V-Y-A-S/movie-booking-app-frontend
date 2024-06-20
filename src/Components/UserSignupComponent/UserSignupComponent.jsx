@@ -1,28 +1,30 @@
 import React, { useState } from 'react'
+import './UserSignupComponent.css'
 import { Link } from 'react-router-dom'
-import './UserLoginComponent.css'
 import axios from 'axios'
 
-const UserLoginComponent = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+const UserSignupComponent = () => {
+  const [userData, setUserData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: ''
+  })
 
-  const emailHandler = (event) => {
-    setEmail(event.target.value)
-  }
+  const { firstName, lastName, email, password } = userData
 
-  const passwordHandler = (event) => {
-    setPassword(event.target.value)
+  const inputHandler = (event) => {
+    const { name, value } = event.target
+    setUserData({ ...userData, [name]: value })
   }
 
   const formSubmitHandler = (event) => {
     event.preventDefault()
     axios
-      .post(`http://localhost:3500/api/v1/movie/userLogin`, { userEmail: email, userPassword: password })
+      .post(`http://localhost:3500/api/v1/movie/userSignUp`, { data: userData })
       .then(response => {
-        alert(`Welcome ${response.data.firstName} ${response.data.lastName}`)
-        window.localStorage.setItem('token', response.data.token)
-        window.location.href = "/moviesPage"
+        alert(`Successfully created account for ${response.data.firstName} ${response.data.lastName}`)
+        window.location.href = '/'
       })
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
   }
@@ -46,17 +48,35 @@ const UserLoginComponent = () => {
         </div>
       </nav>
 
-      <div className='form-login'>
+      <div className='form'>
         <form onSubmit={formSubmitHandler} className='box'>
-          <p style={{ fontWeight: "bolder", fontSize: "35px", textAlign: "center" }}><b>LOGIN</b></p>
-          <label><b>UserName</b></label>
+          <p style={{ fontWeight: "bolder", fontSize: "35px", textAlign: "center" }}><b>SIGNUP</b></p>
+          <label>First Name</label>
+          <input
+            type="text"
+            name="firstName"
+            value={firstName}
+            placeholder='Enter your first name'
+            onChange={inputHandler}
+            required
+          />
+          <label>Last Name</label>
+          <input
+            type="text"
+            name="lastName"
+            placeholder='Enter your last name'
+            value={lastName}
+            onChange={inputHandler}
+            required
+          />
+          <label>Email</label>
           <input
             type="email"
             name="email"
             value={email}
             placeholder='Enter your email'
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"
-            onChange={emailHandler}
+            onChange={inputHandler}
             required
           />
           <label><b>Password</b></label>
@@ -67,17 +87,17 @@ const UserLoginComponent = () => {
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             placeholder='Enter Your Password'
             title="Password must contain at least one number, one uppercase and lowercase letter, and be at least 8 characters long"
-            onChange={passwordHandler}
+            onChange={inputHandler}
             required
           />
           <div className='submit'>
-            <button type="submit">Login</button>
+            <button type="submit">Signup</button>
           </div>
-          Don't have an account, <Link to='/userSignup'>SignUp here!</Link>
+          Already have an account,<Link to='/'>Login here!</Link>
         </form>
       </div>
     </React.Fragment>
   )
 }
 
-export default UserLoginComponent
+export default UserSignupComponent

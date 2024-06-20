@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import './HomePageComponent.css'
 import DisplayComponent from './DisplayComponent'
 import axios from 'axios'
+import { Link, Route } from 'react-router-dom'
+import UserLoginComponent from '../UserLoginComponent/UserLoginComponent'
 
 const HomePageComponent = () => {
 
@@ -12,10 +14,10 @@ const HomePageComponent = () => {
         console.log(response.data)
       })
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
-  },[])
+  },[movieData])
 
   return (
-    <React.Fragment>
+   <div className='movies'>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></link>
       <nav className="navbar">
         <div className="logo">
@@ -36,7 +38,7 @@ const HomePageComponent = () => {
           <div className="menu-links">
             <a href="#">View Bookings</a>
           </div>
-          <button className="log-in">Login/signup</button>
+          <Link to='/userLogout' className="log-out">Logout</Link>
         </div>
         <div className="menu-btn">
           <i className="fa-solid fa-bars"></i>
@@ -51,7 +53,7 @@ const HomePageComponent = () => {
       ))}
         </div>
         </div>
-    </React.Fragment>
+        </div>
   )
 }
 
