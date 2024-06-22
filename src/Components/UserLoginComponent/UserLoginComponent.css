@@ -1,18 +1,18 @@
-body{
+/* body{
     background: url('movie.jpg');
     background-size: cover; 
-}
+} */
 
 .form-login {
-    background-color:crimson;
+    background-color:rgb(29, 23, 23);;
     border: 2px solid black;
     width: 30%; 
     border-radius:20px;
     padding: 20px;
-    margin-left:58%;
+    margin-left:60%;
     margin-top:8%;
     border:2px solid white;
-    box-shadow: -3px -3px 10px white,3px 3px 10px white;
+    box-shadow: -3px -3px 10px black,3px 3px 10px black;
 
   }
   
@@ -22,7 +22,7 @@ body{
     padding: 13px; 
     box-sizing: border-box; 
     border-radius:20px;
-    border:none;
+    border:2px solid white;
     outline:none;
   }
   
@@ -42,5 +42,6 @@ body{
   {
     width:95%;
     padding: 5%;
+    border:2px solid white;
     border-radius: 20px;
   }

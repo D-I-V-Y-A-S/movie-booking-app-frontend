@@ -11,11 +11,7 @@ body {
     padding: 0;
     font-family: "Ubuntu", sans-serif;
 }
-.movies
-{
-    background-color: white !important;
 
-}
 a {
     text-decoration: none;
 }
@@ -73,13 +69,10 @@ button {
 }
 
 .log-out {
-    /* font-weight: 500;
-    padding: 12px 22px; */
+
     background-color: transparent;
     color: #999999;
-    /* border-radius: 10px;
-    border: 2px solid #0aa5ff;
-    transition: 0.2s; */
+
 }
 
 .log-out:hover {
@@ -118,17 +111,22 @@ input[type="text"] {
 .box
 {
     padding-left:2.5%;
-    margin:1% 5%; 
+    margin:1% 5% 1% 0%; 
 }
 
 .container
 {
     display:flex;
     flex-wrap: wrap;
+    margin-left: 1.5%;
 }
 
 .items
 {
+    border:2px solid white;
+    padding:2%;
+    border-radius: 20px;
+    background-color: #999999;
     margin:2%;
 }
 
@@ -138,3 +136,22 @@ input[type="text"] {
     color:white;
     text-align: center;
 }
+
+button[type="submit"]
+{
+background-color: black;
+color:white;
+width:100%;
+display:flex;
+text-align: center;
+justify-content: center;
+align-items: center;
+padding:3%;
+border-radius: 20px;
+}
+
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  } */

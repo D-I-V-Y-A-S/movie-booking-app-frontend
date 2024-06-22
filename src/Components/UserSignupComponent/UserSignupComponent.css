@@ -1,57 +1,58 @@
-.form{
-    background-color:crimson;
-    width: 30%; 
-    border-radius:20px;
-    padding: 10px;
-    margin-left:60%;
-    margin-top:3%;
-    border:2px solid white;
-    box-shadow: -3px -3px 10px white,3px 3px 10px white;
-  }
-  
-  .form input[type=text]
-  {
-    width: 100%; 
-    margin-bottom: 20px;
-    padding: 13px; 
-    background-color: white;
-    box-sizing: border-box; 
-    border-radius:20px;
-    border:none;
-    outline:none;
-    margin-left:0;
-  }
+.form {
+  /* background-color:crimson; */
+  background-color:rgb(29, 23, 23);
+  color:white;
+  width: 30%;
+  border-radius: 20px;
+  padding: 10px;
+  margin-left: 60%;
+  margin-top: 2%;
+  border: 2px solid white;
+  box-shadow: -3px -3px 10px white, 3px 3px 10px white;
+}
 
-  .form input[type="email"],
-  .form input[type="password"]
-  {
-    width: 100%; 
-    margin-bottom: 20px;
-    padding: 13px; 
-    background-color: white;
-    box-sizing: border-box; 
-    border-radius:20px;
-    border:none;
-    outline:none;
-  }
+.form input[type=text] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 13px;
+  color:black;
+  background-color: white;
+  box-sizing: border-box;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  margin-left: 0;
+}
 
-  
-  .box{
-    padding:2%;
-  }
+.form input[type="email"],
+.form input[type="password"] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 13px;
+  color:black;
+  background-color: white;
+  box-sizing: border-box;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
 
-  .submit{
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    margin:30px;
-    border-radius: 20px;
-  }
 
-  button[type="submit"]
-  {
-    width:95%;
-    padding: 5%;
-    cursor:pointer;
-    border-radius: 20px;
-  }
+.box {
+  padding: 2%;
+}
+
+.submit {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+  border-radius: 20px;
+}
+
+button[type="submit"] {
+  width: 95%;
+  padding: 5%;
+  cursor: pointer;
+  border-radius: 20px;
+}

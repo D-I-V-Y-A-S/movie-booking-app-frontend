@@ -48,14 +48,13 @@ const UserLoginComponent = () => {
 
       <div className='form-login'>
         <form onSubmit={formSubmitHandler} className='box'>
-          <p style={{ fontWeight: "bolder", fontSize: "35px", textAlign: "center" }}><b>LOGIN</b></p>
+          <p style={{ fontWeight: "bolder",color:"white", fontSize: "35px", textAlign: "center" }}><b>LOGIN</b></p>
           <label><b>UserName</b></label>
           <input
             type="email"
             name="email"
             value={email}
             placeholder='Enter your email'
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"
             onChange={emailHandler}
             required
           />
@@ -64,16 +63,14 @@ const UserLoginComponent = () => {
             type="password"
             name="password"
             value={password}
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             placeholder='Enter Your Password'
-            title="Password must contain at least one number, one uppercase and lowercase letter, and be at least 8 characters long"
             onChange={passwordHandler}
             required
           />
           <div className='submit'>
             <button type="submit">Login</button>
           </div>
-          Don't have an account, <Link to='/userSignup'>SignUp here!</Link>
+         <span style={{color:"white"}} >Don't have an account, </span><Link to='/userSignup' style={{color:"skyblue"}}>SignUp here!</Link>
         </form>
       </div>
     </React.Fragment>

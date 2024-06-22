@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 
 const UserLogoutComponent = () => {
-  const navigate = useNavigate();
-
+  
   useEffect(() => {
       try {
         const token = window.localStorage.getItem('token')

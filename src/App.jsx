@@ -6,6 +6,8 @@ import AdminLoginComponent from './Components/AdminLoginComponent/AdminLoginComp
 import AdminLogoutComponent from './Components/AdminLogoutComponent/AdminLogoutComponent'
 import { Link, Route, BrowserRouter as  Router, Routes } from 'react-router-dom'
 import UserSignupComponent from './Components/UserSignupComponent/UserSignupComponent'
+import BookingComponent from './Components/BookingComponent/BookingComponent'
+import ViewBookingsComponent from './Components/ViewBookingsComponent/ViewBookingsComponent'
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
         <Route exact path='/adminLogin' element={<AdminLoginComponent />}></Route>
         <Route exact path='/adminLogout' element={<AdminLogoutComponent />}></Route>
         <Route exact path='/userSignup' element={<UserSignupComponent />}></Route>
+        <Route exact path='/booking' element={<BookingComponent />}></Route>
+        <Route exact path='/tickets' element={<ViewBookingsComponent />}></Route>
       </Routes>
     </Router>
   )

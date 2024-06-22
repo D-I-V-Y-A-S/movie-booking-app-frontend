@@ -1,0 +1,30 @@
+.bookings{
+   margin: 5% 7% 5% 10%;
+}
+table,th,td
+{
+    border:2px gray solid;
+    border-collapse: collapse;
+    color:white;
+    padding: 20px 30px;
+}
+
+th{
+    background-color: #FBEAEB;
+    color:black;
+}
+
+td{
+    background-color:#2F3C7E;
+}
+
+.box1{
+    margin:0.5% 10% 0.5% 20% ;
+    width:80%;
+}
+
+.box1 h1 {
+    margin:0.5% 2% 0.5% 2% ;
+    width:80%;
+}
+

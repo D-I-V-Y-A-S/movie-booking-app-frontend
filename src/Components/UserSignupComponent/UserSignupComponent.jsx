@@ -31,6 +31,7 @@ const UserSignupComponent = () => {
 
   return (
     <React.Fragment>
+      <div className='signUp'>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></link>
       <nav className="navbar">
         <div className="logo">
@@ -75,7 +76,7 @@ const UserSignupComponent = () => {
             name="email"
             value={email}
             placeholder='Enter your email'
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"
+            pattern="[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]{2,}"
             onChange={inputHandler}
             required
           />
@@ -84,17 +85,18 @@ const UserSignupComponent = () => {
             type="password"
             name="password"
             value={password}
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            pattern="(?=.*[a-z])(?=.*[A-Z]).{4,}"
             placeholder='Enter Your Password'
-            title="Password must contain at least one number, one uppercase and lowercase letter, and be at least 8 characters long"
+            title="Password must contain at least one uppercase and lowercase letter, and be at least 4 characters long"
             onChange={inputHandler}
             required
           />
           <div className='submit'>
             <button type="submit">Signup</button>
           </div>
-          Already have an account,<Link to='/'>Login here!</Link>
+          <span style={{color:"white"}} >Already have an account,</span><Link to='/' style={{color:"skyblue"}}>Login here!</Link>
         </form>
+      </div>
       </div>
     </React.Fragment>
   )
