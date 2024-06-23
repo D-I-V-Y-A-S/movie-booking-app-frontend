@@ -53,7 +53,7 @@ const AdminLoginComponent = () => {
 
       <div className='form-login'>
         <form onSubmit={formSubmitHandler} className='box'>
-          <p style={{ fontWeight: "bolder", color: "white", fontSize: "35px", textAlign: "center" }}><b>LOGIN</b></p>
+          <p style={{ fontWeight: "bolder", color: "white", fontSize: "35px", textAlign: "center" }}><b>ADMIN LOGIN</b></p>
           <label><b>UserName</b></label>
           <input
             type="email"

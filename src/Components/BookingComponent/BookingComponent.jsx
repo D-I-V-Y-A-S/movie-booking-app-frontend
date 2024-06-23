@@ -25,7 +25,7 @@ const BookingComponent = () => {
       name: "F",
     }
   ]
-  const [bookingDetail, setBookingDetail] = useState({
+  const [bookingDetail, setBookingDetail] = useState([{
     firstName: '',
     lastName: '',
     slot: '',
@@ -33,7 +33,8 @@ const BookingComponent = () => {
     location: '',
     gender: '',
     consideration: ''
-  });
+  }]);
+  
   const { firstName, lastName, slot, location, date, gender, consideration } = bookingDetail
 
   const [seatSelected, setSeatSelected] = useState([])
@@ -102,7 +103,7 @@ const BookingComponent = () => {
     setSeatSelected((prev) => [...prev, {
       seatName: seatName,
       seatType: seatType,
-      movieName: movieName
+      movieName: movieName,
     }]);
 
     setSelectedSeatsCount((prev) => prev + 1)
@@ -214,7 +215,7 @@ const BookingComponent = () => {
               <option value=''>--Give Your Consideration for neighbour viewer--</option>
               <option value='Male'>Male</option>
               <option value='Female'>Female</option>
-              <option value='No Consideration'>No Consideration</option>
+              <option value='No consideration'>No Consideration</option>
             </select>
           </div>
 

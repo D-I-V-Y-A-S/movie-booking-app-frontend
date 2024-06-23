@@ -38,6 +38,15 @@ const AddMoviesComponent = () => {
 
   const inputHandler = (event) => {
     const { name, value } = event.target
+    if (name === 'movieGenre1' && value === movieInfo.movieGenre2) {
+      alert('Genre 1 and Genre 2 cannot be the same');
+      return;
+    }
+
+    if (name === 'movieGenre2' && value === movieInfo.movieGenre1) {
+      alert('Genre 1 and Genre 2 cannot be the same');
+      return;
+    }
     setMovieInfo({ ...movieInfo, [name]: value })
     console.log(movieInfo)
   }

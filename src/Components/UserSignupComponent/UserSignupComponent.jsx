@@ -57,7 +57,7 @@ const UserSignupComponent = () => {
 
         <div className='form'>
           <form onSubmit={formSubmitHandler} className='box'>
-            <p style={{ fontWeight: "bolder", fontSize: "35px", textAlign: "center" }}><b>SIGNUP</b></p>
+            <p style={{ fontWeight: "bolder", fontSize: "30px", textAlign: "center" }}><b>SIGNUP</b></p>
             <label>First Name</label>
             <input
               type="text"

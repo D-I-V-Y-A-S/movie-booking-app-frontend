@@ -35,7 +35,11 @@ const HomePageComponent = () => {
 
   const searchHandler = (event) => {
     setSearchInput(event.target.value)
-    axios.get(`http://localhost:3500/api/v1/movie/${searchInput}`)
+    axios.get(`http://localhost:3500/api/v1/movie/${searchInput}` ,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+      })
       .then(response => setFilteredMovies(response.data))
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
   }
