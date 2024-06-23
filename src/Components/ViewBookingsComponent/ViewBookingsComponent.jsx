@@ -26,7 +26,8 @@ const ViewBookingsComponent = () => {
                     console.log(bookings)}})
             .catch(error => console.log(error.response.data));
         } else {
-            alert("Login to book movies!!");
+            alert("Login to view bookings!!");
+               window.location.href='/'
         }
     }, []);
 

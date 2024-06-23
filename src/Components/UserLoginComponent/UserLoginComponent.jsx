@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './UserLoginComponent.css'
 import axios from 'axios'
+import backgroundImage from './movie.jpg';
 
 const UserLoginComponent = () => {
   const [email, setEmail] = useState('')
@@ -10,6 +11,10 @@ const UserLoginComponent = () => {
   const emailHandler = (event) => {
     setEmail(event.target.value)
   }
+
+  useEffect(() => {
+    document.body.style.backgroundImage = `url(${backgroundImage})`;
+  })
 
   const passwordHandler = (event) => {
     setPassword(event.target.value)
@@ -48,7 +53,7 @@ const UserLoginComponent = () => {
 
       <div className='form-login'>
         <form onSubmit={formSubmitHandler} className='box'>
-          <p style={{ fontWeight: "bolder",color:"white", fontSize: "35px", textAlign: "center" }}><b>LOGIN</b></p>
+          <p style={{ fontWeight: "bolder", color: "white", fontSize: "35px", textAlign: "center" }}><b>LOGIN</b></p>
           <label><b>UserName</b></label>
           <input
             type="email"
@@ -70,7 +75,8 @@ const UserLoginComponent = () => {
           <div className='submit'>
             <button type="submit">Login</button>
           </div>
-         <span style={{color:"white"}} >Don't have an account, </span><Link to='/userSignup' style={{color:"skyblue"}}>SignUp here!</Link>
+          <span style={{ color: "white" }} >Are u an admin, </span><Link to='/adminLogin' style={{ color: "skyblue" }}>login here!</Link>
+          <p><span style={{ color: "white" }} >Don't have user account, </span><Link to='/userSignup' style={{ color: "skyblue" }}>SignUp here!</Link></p>
         </form>
       </div>
     </React.Fragment>

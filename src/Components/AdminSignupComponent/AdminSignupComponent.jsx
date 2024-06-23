@@ -1,36 +1,35 @@
 import React, { useEffect, useState } from 'react'
-import './UserSignupComponent.css'
 import { Link } from 'react-router-dom'
+import './AdminSignupComponent.css'
 import axios from 'axios'
-import backgroundImage from './movie.jpg';
+import backgroundImage from './movie.jpg'
 
-const UserSignupComponent = () => {
-  const [userData, setUserData] = useState({
+const AdminSignupComponent = () => {
+  const [adminData, setadminData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: ''
   })
 
-
-  useEffect(() => {
-    document.body.style.backgroundImage = `url(${backgroundImage})`;
-  })
-
-  const { firstName, lastName, email, password } = userData
+  const { firstName, lastName, email, password } = adminData
 
   const inputHandler = (event) => {
     const { name, value } = event.target
-    setUserData({ ...userData, [name]: value })
+    setadminData({ ...adminData, [name]: value })
   }
+  useEffect(() => {
+    document.body.style.backgroundImage = `url(${backgroundImage})`
+  })
 
   const formSubmitHandler = (event) => {
+    console.log("HI")
     event.preventDefault()
     axios
-      .post(`http://localhost:3500/api/v1/movie/userSignUp`, { data: userData })
+      .post(`http://localhost:3500/api/v1/movie/adminSignUp`, { data: adminData })
       .then(response => {
         alert(`Successfully created account for ${response.data.firstName} ${response.data.lastName}`)
-        window.location.href = '/'
+        window.location.href = '/adminLogin'
       })
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
   }
@@ -46,8 +45,8 @@ const UserSignupComponent = () => {
           </div>
 
           <div className="menu">
-            <Link to='/' style={{ color: "white" }}>Login</Link>
-            <Link to='/userSignup' style={{ color: "white" }}>Signup</Link>
+            <Link to='/adminLogin' style={{ color: "white" }}>Login</Link>
+            <Link to='/adminSignup' style={{ color: "white" }}>Signup</Link>
           </div>
 
           <div className="menu-btn">
@@ -100,8 +99,7 @@ const UserSignupComponent = () => {
             <div className='submit'>
               <button type="submit">Signup</button>
             </div>
-            <span style={{ color: "white" }} >Are u an admin, </span><Link to='/adminSignup' style={{ color: "skyblue" }}>SignUp here!</Link>
-            <p><span style={{ color: "white" }} >Already have user account,</span><Link to='/' style={{ color: "skyblue" }}>Login here!</Link></p>
+            <span style={{ color: "white" }} >Already have admin account,</span><Link to='/adminLogin' style={{ color: "skyblue" }}>Login here!</Link>
           </form>
         </div>
       </div>
@@ -109,4 +107,4 @@ const UserSignupComponent = () => {
   )
 }
 
-export default UserSignupComponent
+export default AdminSignupComponent

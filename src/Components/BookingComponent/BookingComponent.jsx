@@ -4,30 +4,25 @@ import './BookingComponent.css';
 import { Link } from 'react-router-dom';
 
 const BookingComponent = () => {
+  const token = window.localStorage.getItem('token');
   const seatArray = [
     {
-      name: "A",
-      type: "balcony",
+      name: "A"
     },
     {
       name: "B",
-      type: "balcony",
     },
     {
       name: "C",
-      type: "firstClass",
     },
     {
       name: "D",
-      type: "firstClass",
     },
     {
       name: "E",
-      type: "secondClass",
     },
     {
       name: "F",
-      type: "secondClass",
     }
   ]
   const [bookingDetail, setBookingDetail] = useState({
@@ -36,41 +31,41 @@ const BookingComponent = () => {
     slot: '',
     date: '',
     location: '',
+    gender: '',
+    consideration: ''
   });
-  const { firstName, lastName, slot, location, date } = bookingDetail
+  const { firstName, lastName, slot, location, date, gender, consideration } = bookingDetail
 
   const [seatSelected, setSeatSelected] = useState([])
   const [movieName, setMovieName] = useState('')
 
   const [selectedSeatsCount, setSelectedSeatsCount] = useState(0)
   const [fair, setFair] = useState(0)
+
   const [disabledSeats, setDisabledSeats] = useState([]);
 
-  const token = window.localStorage.getItem('token');
-
   useEffect(() => {
-    if (token) {
-      axios.get(`http://localhost:3500/api/v1/movie/user/ticket/seatsBooked`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+    if(token){
+    document.body.style.backgroundColor = "rgb(13, 122, 164)";
+    axios.get('http://localhost:3500/api/v1/movie/checkToken', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status === 200) {
+          console.log(response.data)
         }
       })
-        .then(response => {
-          if (response.status == 200) {
-            console.log(response.data)
-            setDisabledSeats(response.data)
-          }
-        })
-        .catch((error) => { console.log(`Status : ${error.response.status} - ${error.response.data.message}`) })
-
-      document.body.style.backgroundColor = "rgb(13, 122, 164)";
-      const params = new URLSearchParams(window.location.search);
-      const movieNameParam = params.get('movieName');
-      setMovieName(movieNameParam);
-    }
-    else {
-      alert("Login to book movies!!");
-    }
+      .catch(error => console.log(error.response.data));
+  }
+  else {
+    alert("Login to book movies!!");
+    window.location.href = '/'
+  }
+    const params = new URLSearchParams(window.location.search);
+    const movieNameParam = params.get('movieName');
+    setMovieName(movieNameParam);
   }, []);
 
   useEffect(() => {
@@ -80,15 +75,31 @@ const BookingComponent = () => {
   const handleInput = (event) => {
     const { name, value } = event.target;
     setBookingDetail({ ...bookingDetail, [name]: value });
+    console.log(bookingDetail)
   };
+
+  useEffect(() => {
+    if (location && slot && movieName) {
+      axios.get(`http://localhost:3500/api/v1/movie/user/ticket/seatsBooked/${location}`, {
+        params: {
+          movieName: movieName, slot: slot
+        }
+      })
+        .then(response => {
+          // if (response.status == 200) {
+          //   console.log(response.data)
+          setDisabledSeats(response.data)
+          // console.log(disabledSeats)
+          // console.log(disabledSeats[0].gender)
+        }
+        )
+        .catch((error) => { console.log(`Status : ${error.response.status} - ${error.response.data.message}`) })
+
+    }
+  }, [location, slot, movieName])
 
   const seatHandler = (seatName, seatType) => {
     setSeatSelected((prev) => [...prev, {
-      firstName: firstName,
-      lastName: lastName,
-      location: location,
-      slot: slot,
-      date: date,
       seatName: seatName,
       seatType: seatType,
       movieName: movieName
@@ -100,20 +111,23 @@ const BookingComponent = () => {
 
   const formHandler = async (event) => {
     event.preventDefault();
+    console.log(seatSelected)
+    console.log(bookingDetail)
     await axios
-      .post(`http://localhost:3500/api/v1/movie/booktickets`,   { data: seatSelected },
+      .post(`http://localhost:3500/api/v1/movie/booktickets`, { bookingDetail: bookingDetail, data: seatSelected },
         {
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
-      .then(response => {if(response.status===201){
-        alert(response.data.message)
-        window.location.href = '/moviesPage'
-      }
-      else{
-        alert(response.data.message)
-      }
+      .then(response => {
+        if (response.status === 201) {
+          alert(response.data.message)
+          window.location.href = '/moviesPage'
+        }
+        else {
+          alert(response.data.message)
+        }
       })
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
   }
@@ -187,6 +201,24 @@ const BookingComponent = () => {
           </div>
 
           <div className='form-group1'>
+            <select name='gender' value={gender} onChange={handleInput} required>
+              <option value=''>--Choose Your Gender--</option>
+              <option value='Male'>Male</option>
+              <option value='Female'>Female</option>
+              <option value='Other'>Other</option>
+            </select>
+          </div>
+
+          <div className='form-group1'>
+            <select name='consideration' value={consideration} onChange={handleInput} required>
+              <option value=''>--Give Your Consideration for neighbour viewer--</option>
+              <option value='Male'>Male</option>
+              <option value='Female'>Female</option>
+              <option value='No Consideration'>No Consideration</option>
+            </select>
+          </div>
+
+          <div className='form-group1'>
             <select name='slot' value={slot} onChange={handleInput} required>
               <option value=''>--Choose Your Slot--</option>
               <option value='8:00am - 11:00am'>8:00am - 11:00am </option>
@@ -196,16 +228,14 @@ const BookingComponent = () => {
             </select>
           </div>
 
-
           <div className='form-group1'>
             <select name='location' value={location} onChange={handleInput} required>
               <option value=''>--Choose Location--</option>
               <option value="XYZ Mall, Velacherry">XYZ Mall, Velacherry</option>
               <option value="ABC Plaza, Anna Nagar">ABC Plaza, Anna Nagar</option>
-              <option value="PQR Center, T. Nagar">PQR Center, T. Nagar</option>
-              <option value="LMN Square, Mylapore">LMN Square, Mylapore</option>
             </select>
           </div>
+
           <div className='seat-type'>
             <div className='info-seats'>
               <div className='seat'>
@@ -216,52 +246,59 @@ const BookingComponent = () => {
             <div className='info-seats'>
               <div className='seat-secondClass'>
               </div><b>-SecondClass</b></div>
-            <div className='info-seats'>
-              <div className='no-seat'>
-              </div><b>-Booked</b></div>
           </div>
 
           <div className='container'>
             {seatArray.map((dataRow, rowIndex) => (
-              <div key={rowIndex}>
+              <div key={`row-${rowIndex}`}>
                 {[...Array(6)].map((_, seatIndex) => {
                   const seatKey = `row${rowIndex}-seat${seatIndex}`;
+
                   const seatName = `${dataRow.name}${seatIndex + 1}`
                   const isDisabled = disabledSeats.some(seat => seat.seatName === seatName);
                   // console.log(isDisabled,seatName)
                   if (seatIndex < 2 && isDisabled === false) {
                     return (
-
                       <div
-                        key={seatIndex}
+                        key={seatKey}
                         className='seat'
-                        onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, dataRow.type)}
+                        onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'Balcony')}
                       ></div>
                     )
                   } else if (seatIndex >= 2 && seatIndex < 4 && isDisabled === false) {
                     return (
                       <div
-                        key={seatIndex}
+                        key={seatKey}
                         className='seat-firstClass'
-                        onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, dataRow.type)}
+                        onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'FirstClass')}
                       ></div>
                     );
                   }
                   else if (seatIndex >= 4 && isDisabled === false) {
                     return (
                       <div
-                        key={seatIndex}
+                        key={seatKey}
                         className='seat-secondClass'
-                        onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, dataRow.type)}
+                        onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'SecondClass')}
                       ></div>
                     );
                   }
                   else {
                     return (
-                      <div
-                        key={seatIndex}
-                        className='no-seat'
-                      ></div>
+                      <>
+                        {disabledSeats.length > 0 && disabledSeats[0].gender === 'Male' && (
+                          <div key={seatKey} className='no-seat'><span style={{ color: 'black' }}>M</span>
+                          </div>
+                        )}
+                        {disabledSeats.length > 0 && disabledSeats[0].gender === 'Female' && (
+                          <div key={seatKey} className='no-seat-F'><span style={{ color: 'black' }}>F</span>
+                          </div>
+                        )}
+                        {disabledSeats.length > 0 && disabledSeats[0].gender === 'Other' && (
+                          <div key={seatKey} className='no-seat-o'><span style={{ color: 'black' }}>O</span>
+                          </div>
+                        )}
+                      </>
                     )
                   }
                 })}

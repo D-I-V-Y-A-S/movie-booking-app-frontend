@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import './HomePageComponent.css'
-import DisplayComponent from './DisplayComponent'
 import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import MoviesPageComponent from './MoviesPageComponent'
 
-const HomePageComponent = () => {
+const AdminPageComponent = () => {
   const [movieData, setMovieData] = useState([])
   const [searchInput, setSearchInput] = useState('')
   const [filteredMovies, setFilteredMovies] = useState([])
@@ -14,7 +13,7 @@ const HomePageComponent = () => {
   useEffect(() => {
     if (token) {
       document.body.style.backgroundColor = "silver";
-      axios.get('http://localhost:3500/api/v1/movie', {
+      axios.get('http://localhost:3500/api/v1/movie/admin', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -28,8 +27,8 @@ const HomePageComponent = () => {
         .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
     }
     else {
-      alert("Login to view movies!!");
-      window.location.href = '/'
+      alert("Login to view moviesPage!!");
+      window.location.href = '/adminLogin'
     }
   }, [])
 
@@ -59,7 +58,7 @@ const HomePageComponent = () => {
 
         <div className="menu">
           <div className="menu-links">
-            <Link to='/tickets'>View Bookings</Link>
+            <Link to='/addMovie'>Add movie</Link>
           </div>
           <Link to='/userLogout' className="log-out">Logout</Link>
         </div>
@@ -73,13 +72,13 @@ const HomePageComponent = () => {
           {filteredMovies.length === 0 ? (
             movieData && movieData.map((item, index) => (
               <div key={index} className='items'>
-                <DisplayComponent item={item} />
+                <MoviesPageComponent item={item} />
               </div>
             ))
           ) : (
             filteredMovies && filteredMovies.map((item, index) => (
               <div key={index} className='items'>
-                <DisplayComponent item={item} />
+                <MoviesPageComponent item={item} />
               </div>
             ))
           )
@@ -88,6 +87,6 @@ const HomePageComponent = () => {
       </div>
     </React.Fragment>
   );
-};
+}
 
-export default HomePageComponent
+export default AdminPageComponent

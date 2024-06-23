@@ -134,10 +134,36 @@ input[type="submit"] {
     height: 26px;
     width: 34px;
     margin: 3px;
-    font-size: 50px;
+    font-size: 20px;
+    text-align: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;   
 }
+
+.no-seat-F
+{
+    background-color:deeppink;
+    height: 26px;
+    width: 34px;
+    margin: 3px;
+    font-size: 20px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;   
+}
+
+.no-seat-o
+{
+    background-color:blueviolet;
+    height: 26px;
+    width: 34px;
+    margin: 3px;
+    font-size: 20px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;   
+}
+
 .seat {
     background-color: #444451;
     height: 26px;
@@ -215,9 +241,10 @@ input[type="submit"] {
 }
 
 .screen {
+    
     background-color: #fff;
     height: 120px;
-    width: 100%;
+    width: 50%;
     margin: 15px 0;
     transform: rotateX(-48deg);
     box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);

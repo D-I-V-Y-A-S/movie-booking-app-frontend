@@ -1,0 +1,51 @@
+/* body{
+    background: url('movie.jpg');
+    background-size: cover; 
+} */
+
+.form-login {
+    background-color:rgb(29, 23, 23);;
+    border: 2px solid black;
+    width: 30%; 
+    border-radius:20px;
+    padding: 20px;
+    margin-left:60%;
+    margin-top:8%;
+    border:2px solid white;
+    box-shadow: -3px -3px 10px black,3px 3px 10px black;
+
+  }
+  
+  .form-login input {
+    width: 100%; 
+    margin-bottom: 20px;
+    padding: 13px; 
+    box-sizing: border-box; 
+    border-radius:20px;
+    border:2px solid white;
+    outline:none;
+  }
+  
+  .box{
+    padding:2%;
+  }
+
+  .submit{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin:30px;
+    border-radius: 20px;
+  }
+
+  button[type="submit"]
+  {
+    width:95%;
+    padding: 5%;
+    border:2px solid white;
+    border-radius: 20px;
+  }
+
+  label b{
+    color:white;
+  }
