@@ -54,10 +54,6 @@ const BookingComponent = () => {
     console.log(movieName)
   }, []);
 
-  useEffect(() => {
-    setFair(selectedSeatsCount * 200);
-  }, [selectedSeatsCount]);
-
   const handleInput = (event) => {
     const { name, value } = event.target;
     setBookingDetail({ ...bookingDetail, [name]: value });
@@ -81,12 +77,18 @@ const BookingComponent = () => {
   }, [location, slot, movieName, date])
 
   const seatHandler = (seatName, seatType) => {
-
     const isSeatSelected = seatSelected.some(seat => seat.seatName === seatName);
-
+  
     if (isSeatSelected) {
       setSeatSelected(prev => prev.filter(item => item.seatName !== seatName));
       setSelectedSeatsCount(prev => prev - 1);
+      if (seatType === 'Balcony') {
+        setFair(prev => prev - 300);
+      } else if (seatType === 'FirstClass') {
+        setFair(prev => prev - 250);
+      } else {
+        setFair(prev => prev - 200);
+      }
     } else {
       setSeatSelected(prev => [
         ...prev,
@@ -97,14 +99,20 @@ const BookingComponent = () => {
         }
       ]);
       setSelectedSeatsCount(prev => prev + 1);
+      if (seatType === 'Balcony') {
+        setFair(prev => prev + 300);
+      } else if (seatType === 'FirstClass') {
+        setFair(prev => prev + 250);
+      } else {
+        setFair(prev => prev + 200);
+      }
     }
-    console.log(seatSelected)
   };
-
+  
   const formHandler = async (event) => {
     event.preventDefault();
-    // console.log(seatSelected)
-    // console.log(bookingDetail)
+    console.log(seatSelected)
+    console.log(bookingDetail)
     await axios
       .post(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/booktickets`, { bookingDetail: bookingDetail, data: seatSelected },
         {
@@ -234,47 +242,50 @@ const BookingComponent = () => {
           <div className='seat-type'>
             <div className='info-seats'>
               <div className='seat'>
-              </div><b>-Balcony</b></div>
+              </div><b>-Balcony - Rs.300</b></div>
             <div className='info-seats'>
               <div className='seat-firstClass'>
-              </div><b>-FirstClass</b></div>
+              </div><b>-FirstClass - Rs.250</b></div>
             <div className='info-seats'>
               <div className='seat-secondClass'>
-              </div><b>-SecondClass</b></div>
+              </div><b>-SecondClass - Rs.200</b></div>
           </div>
 
           <div className='container'>
             {seatArray.map((dataRow, rowIndex) => (
               <div key={`row-${dataRow}-${rowIndex}`}>
-                {[...Array(6)].map((_, seatIndex) => {
+                {[...Array(9)].map((_, seatIndex) => {
                   const seatKey = `row${rowIndex}-seat${seatIndex}`;
                   const seatName = `${dataRow.name}${seatIndex + 1}`
                   const isDisabled = disabledSeats.some(seat => seat.seatName === seatName);
                   // console.log(isDisabled,seatName)
-                  if (seatIndex < 2 && isDisabled === false) {
+                  if (seatIndex < 3 && isDisabled === false) {
                     return (
                       <div
                         key={`${seatKey}-balcony`}
                         className='seat'
                         onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'Balcony')}
-                      ></div>
+                      >{`${dataRow.name}${Number(seatIndex)}`}</div>
                     )
-                  } else if (seatIndex >= 2 && seatIndex < 4 && isDisabled === false) {
+                  } else if (seatIndex >= 3 && seatIndex < 6 && isDisabled === false) {
                     return (
                       <div
                         key={`${seatKey}-firstClass`}
                         className='seat-firstClass'
-                        onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'FirstClass')}
-                      ></div>
+                        onClick={() => {seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'FirstClass')}}
+                      >{`${dataRow.name}${Number(seatIndex)}`}</div>
                     );
                   }
-                  else if (seatIndex >= 4 && isDisabled === false) {
+                  else if (seatIndex >= 6 && isDisabled === false) {
                     return (
                       <div
-                        key={`${seatKey}-secondClass`}
-                        className='seat-secondClass'
-                        onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'SecondClass')}
-                      ></div>
+                      key={`${dataRow.name}-${seatIndex}-secondClass`}
+                      className={`seat-secondClass`}
+                      onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'SecondClass')}
+                    >
+                      {`${dataRow.name}${seatIndex + 1}`}
+                    </div>
+                    
                     );
                   }
                   else {
@@ -292,7 +303,7 @@ const BookingComponent = () => {
                           <div key={`${seatKey}-other`} className='no-seat-o'><span style={{ color: 'black' }}>O</span>
                           </div>
                         )}
-                   </div>
+                      </div>
                     )
                   }
                 })}
@@ -300,10 +311,10 @@ const BookingComponent = () => {
             ))}
           </div>
 
-          {selectedSeatsCount > 0 && (
+          {selectedSeatsCount > 0  && (
             <p className='text'>
               You have booked <span id='count'>{selectedSeatsCount}</span>{' '}
-              {selectedSeatsCount > 1 ? 'tickets' : 'ticket'} for a price of RS.
+              for a price of RS.
               <span id='total'>{fair}</span>
             </p>
           )}
