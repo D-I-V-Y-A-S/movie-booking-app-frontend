@@ -14,7 +14,7 @@ const HomePageComponent = () => {
   useEffect(() => {
     if (token) {
       document.body.style.backgroundColor = "silver";
-      axios.get('https://mern-movie-booking-backend-task.vercel.app/api/v1/movie', {
+      axios.get('https://mern-movie-booking-frontend-task-pqlx7fjmd-d-i-v-y-a-s-projects.vercel.app/api/v1/movie', {
         headers: {
           Authorization: `Bearer ${token}`
         }
