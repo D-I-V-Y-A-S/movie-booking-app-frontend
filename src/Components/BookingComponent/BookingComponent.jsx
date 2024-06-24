@@ -25,17 +25,16 @@ const BookingComponent = () => {
       name: "F",
     }
   ]
-  const [bookingDetail, setBookingDetail] = useState([{
+  const [bookingDetail, setBookingDetail] = useState({
     firstName: '',
     lastName: '',
     slot: '',
     date: '',
     location: '',
-    gender: '',
-    consideration: ''
-  }]);
-  
-  const { firstName, lastName, slot, location, date, gender, consideration } = bookingDetail
+    gender: ''
+  });
+
+  const { firstName, lastName, slot, location, date, gender } = bookingDetail
 
   const [seatSelected, setSeatSelected] = useState([])
   const [movieName, setMovieName] = useState('')
@@ -46,27 +45,13 @@ const BookingComponent = () => {
   const [disabledSeats, setDisabledSeats] = useState([]);
 
   useEffect(() => {
-    if(token){
-    document.body.style.backgroundColor = "rgb(13, 122, 164)";
-    axios.get('http://localhost:3500/api/v1/movie/checkToken', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(response => {
-        if (response.status === 200) {
-          console.log(response.data)
-        }
-      })
-      .catch(error => console.log(error.response.data));
-  }
-  else {
-    alert("Login to book movies!!");
-    window.location.href = '/'
-  }
+    if (token) {
+      document.body.style.backgroundColor = "rgb(13, 122, 164)";
+    }
     const params = new URLSearchParams(window.location.search);
     const movieNameParam = params.get('movieName');
     setMovieName(movieNameParam);
+    console.log(movieName)
   }, []);
 
   useEffect(() => {
@@ -76,44 +61,50 @@ const BookingComponent = () => {
   const handleInput = (event) => {
     const { name, value } = event.target;
     setBookingDetail({ ...bookingDetail, [name]: value });
-    console.log(bookingDetail)
+    // console.log(bookingDetail)
   };
 
   useEffect(() => {
-    if (location && slot && movieName) {
+    if (location && slot && movieName && date) {
       axios.get(`http://localhost:3500/api/v1/movie/user/ticket/seatsBooked/${location}`, {
         params: {
-          movieName: movieName, slot: slot
+          movieName: movieName, slot: slot, date: date
         }
       })
         .then(response => {
-          // if (response.status == 200) {
-          //   console.log(response.data)
           setDisabledSeats(response.data)
-          // console.log(disabledSeats)
-          // console.log(disabledSeats[0].gender)
         }
         )
         .catch((error) => { console.log(`Status : ${error.response.status} - ${error.response.data.message}`) })
 
     }
-  }, [location, slot, movieName])
+  }, [location, slot, movieName, date])
 
   const seatHandler = (seatName, seatType) => {
-    setSeatSelected((prev) => [...prev, {
-      seatName: seatName,
-      seatType: seatType,
-      movieName: movieName,
-    }]);
 
-    setSelectedSeatsCount((prev) => prev + 1)
-    console.log(seatSelected);
-  }
+    const isSeatSelected = seatSelected.some(seat => seat.seatName === seatName);
+
+    if (isSeatSelected) {
+      setSeatSelected(prev => prev.filter(item => item.seatName !== seatName));
+      setSelectedSeatsCount(prev => prev - 1);
+    } else {
+      setSeatSelected(prev => [
+        ...prev,
+        {
+          seatName: seatName,
+          seatType: seatType,
+          movieName: movieName,
+        }
+      ]);
+      setSelectedSeatsCount(prev => prev + 1);
+    }
+    console.log(seatSelected)
+  };
 
   const formHandler = async (event) => {
     event.preventDefault();
-    console.log(seatSelected)
-    console.log(bookingDetail)
+    // console.log(seatSelected)
+    // console.log(bookingDetail)
     await axios
       .post(`http://localhost:3500/api/v1/movie/booktickets`, { bookingDetail: bookingDetail, data: seatSelected },
         {
@@ -156,7 +147,7 @@ const BookingComponent = () => {
         </div>
       </nav>
       <div className='box7'>
-        <h1 style={{ textAlign: "center", marginBottom: "4%" }}>BOOK YOUR SHOW</h1>
+        <h1 style={{ textAlign: "center", marginBottom: "4%", textShadow: "2px 5px white" }}>BOOK YOUR SHOW</h1>
         <form onSubmit={formHandler}>
           <div className='form-group1'>
             <b>MOVIE NAME</b>
@@ -210,14 +201,14 @@ const BookingComponent = () => {
             </select>
           </div>
 
-          <div className='form-group1'>
+          {/* <div className='form-group1'>
             <select name='consideration' value={consideration} onChange={handleInput} required>
               <option value=''>--Give Your Consideration for neighbour viewer--</option>
               <option value='Male'>Male</option>
               <option value='Female'>Female</option>
               <option value='No consideration'>No Consideration</option>
             </select>
-          </div>
+          </div> */}
 
           <div className='form-group1'>
             <select name='slot' value={slot} onChange={handleInput} required>
@@ -234,6 +225,9 @@ const BookingComponent = () => {
               <option value=''>--Choose Location--</option>
               <option value="XYZ Mall, Velacherry">XYZ Mall, Velacherry</option>
               <option value="ABC Plaza, Anna Nagar">ABC Plaza, Anna Nagar</option>
+              <option value="PQR Center, T. Nagar">PQR Center, T. Nagar</option>
+              <option value="LMN Square, Mylaporer">LMN Square, Mylapore</option>
+
             </select>
           </div>
 
@@ -251,17 +245,16 @@ const BookingComponent = () => {
 
           <div className='container'>
             {seatArray.map((dataRow, rowIndex) => (
-              <div key={`row-${rowIndex}`}>
+              <div key={`row-${dataRow}-${rowIndex}`}>
                 {[...Array(6)].map((_, seatIndex) => {
                   const seatKey = `row${rowIndex}-seat${seatIndex}`;
-
                   const seatName = `${dataRow.name}${seatIndex + 1}`
                   const isDisabled = disabledSeats.some(seat => seat.seatName === seatName);
                   // console.log(isDisabled,seatName)
                   if (seatIndex < 2 && isDisabled === false) {
                     return (
                       <div
-                        key={seatKey}
+                        key={`${seatKey}-balcony`}
                         className='seat'
                         onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'Balcony')}
                       ></div>
@@ -269,7 +262,7 @@ const BookingComponent = () => {
                   } else if (seatIndex >= 2 && seatIndex < 4 && isDisabled === false) {
                     return (
                       <div
-                        key={seatKey}
+                        key={`${seatKey}-firstClass`}
                         className='seat-firstClass'
                         onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'FirstClass')}
                       ></div>
@@ -278,7 +271,7 @@ const BookingComponent = () => {
                   else if (seatIndex >= 4 && isDisabled === false) {
                     return (
                       <div
-                        key={seatKey}
+                        key={`${seatKey}-secondClass`}
                         className='seat-secondClass'
                         onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'SecondClass')}
                       ></div>
@@ -286,20 +279,20 @@ const BookingComponent = () => {
                   }
                   else {
                     return (
-                      <>
+                      <div key={`${seatKey}-gender`}>
                         {disabledSeats.length > 0 && disabledSeats[0].gender === 'Male' && (
-                          <div key={seatKey} className='no-seat'><span style={{ color: 'black' }}>M</span>
+                          <div key={`${seatKey}-male`} className='no-seat'><span style={{ color: 'black' }}>M</span>
                           </div>
                         )}
                         {disabledSeats.length > 0 && disabledSeats[0].gender === 'Female' && (
-                          <div key={seatKey} className='no-seat-F'><span style={{ color: 'black' }}>F</span>
+                          <div key={`${seatKey}-female`} className='no-seat-F'><span style={{ color: 'black' }}>F</span>
                           </div>
                         )}
                         {disabledSeats.length > 0 && disabledSeats[0].gender === 'Other' && (
-                          <div key={seatKey} className='no-seat-o'><span style={{ color: 'black' }}>O</span>
+                          <div key={`${seatKey}-other`} className='no-seat-o'><span style={{ color: 'black' }}>O</span>
                           </div>
                         )}
-                      </>
+                   </div>
                     )
                   }
                 })}

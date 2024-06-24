@@ -12,7 +12,6 @@ const UserSignupComponent = () => {
     password: ''
   })
 
-
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
   })

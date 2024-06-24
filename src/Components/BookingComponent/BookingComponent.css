@@ -127,7 +127,17 @@ input[type="submit"] {
     align-items: center;
     justify-content: center;
 }
-
+.seat-select
+{
+    background-color:green;
+    height: 26px;
+    width: 34px;
+    margin: 3px;
+    font-size: 20px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;   
+}
 .no-seat
 {
     background-color:red;
