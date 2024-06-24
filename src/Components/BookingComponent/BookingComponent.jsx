@@ -66,7 +66,7 @@ const BookingComponent = () => {
 
   useEffect(() => {
     if (location && slot && movieName && date) {
-      axios.get(`http://localhost:3500/api/v1/movie/user/ticket/seatsBooked/${location}`, {
+      axios.get(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/user/ticket/seatsBooked/${location}`, {
         params: {
           movieName: movieName, slot: slot, date: date
         }
@@ -106,7 +106,7 @@ const BookingComponent = () => {
     // console.log(seatSelected)
     // console.log(bookingDetail)
     await axios
-      .post(`http://localhost:3500/api/v1/movie/booktickets`, { bookingDetail: bookingDetail, data: seatSelected },
+      .post(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/booktickets`, { bookingDetail: bookingDetail, data: seatSelected },
         {
           headers: {
             Authorization: `Bearer ${token}`

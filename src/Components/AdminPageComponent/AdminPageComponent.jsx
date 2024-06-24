@@ -13,7 +13,7 @@ const AdminPageComponent = () => {
   useEffect(() => {
     if (token) {
       document.body.style.backgroundColor = "silver";
-      axios.get('http://localhost:3500/api/v1/movie/admin', {
+      axios.get('https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/admin', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -34,7 +34,7 @@ const AdminPageComponent = () => {
 
   const searchHandler = (event) => {
     setSearchInput(event.target.value)
-    axios.get(`http://localhost:3500/api/v1/movie/admin/${searchInput}`,{ headers: {
+    axios.get(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/admin/${searchInput}`,{ headers: {
       Authorization: `Bearer ${token}`
     }})
       .then(response => setFilteredMovies(response.data))

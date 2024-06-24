@@ -9,7 +9,7 @@ const AddMoviesComponent = () => {
   useEffect(() => {
     if (token) {
       document.body.style.backgroundColor = "#40E0D0";
-      axios.get('http://localhost:3500/api/v1/movie/checkToken', {
+      axios.get('https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/checkToken', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -73,7 +73,7 @@ const AddMoviesComponent = () => {
     formData.append('movieImage', movieImage)
     console.log(formData)
 
-    await axios.post('http://localhost:3500/api/v1/movie/addMovie', formData)
+    await axios.post('https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/addMovie', formData)
       .then(response => {
         alert(JSON.stringify(response.data.message))
         window.location.href = '/adminPage'

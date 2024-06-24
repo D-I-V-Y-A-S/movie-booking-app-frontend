@@ -23,7 +23,7 @@ const UserLoginComponent = () => {
   const formSubmitHandler = (event) => {
     event.preventDefault()
     axios
-      .post(`http://localhost:3500/api/v1/movie/userLogin`, { userEmail: email, userPassword: password })
+      .post(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/userLogin`, { userEmail: email, userPassword: password })
       .then(response => {
         alert(`Welcome ${response.data.firstName} ${response.data.lastName}`)
         window.localStorage.setItem('token', response.data.token)

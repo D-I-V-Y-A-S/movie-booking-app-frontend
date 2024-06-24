@@ -26,7 +26,7 @@ const UserSignupComponent = () => {
   const formSubmitHandler = (event) => {
     event.preventDefault()
     axios
-      .post(`http://localhost:3500/api/v1/movie/userSignUp`, { data: userData })
+      .post(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/userSignUp`, { data: userData })
       .then(response => {
         alert(`Successfully created account for ${response.data.firstName} ${response.data.lastName}`)
         window.location.href = '/'
