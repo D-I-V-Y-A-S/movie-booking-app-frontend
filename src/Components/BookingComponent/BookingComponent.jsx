@@ -78,7 +78,7 @@ const BookingComponent = () => {
 
   const seatHandler = (seatName, seatType) => {
     const isSeatSelected = seatSelected.some(seat => seat.seatName === seatName);
-  
+
     if (isSeatSelected) {
       setSeatSelected(prev => prev.filter(item => item.seatName !== seatName));
       setSelectedSeatsCount(prev => prev - 1);
@@ -108,7 +108,7 @@ const BookingComponent = () => {
       }
     }
   };
-  
+
   const formHandler = async (event) => {
     event.preventDefault();
     console.log(seatSelected)
@@ -272,20 +272,20 @@ const BookingComponent = () => {
                       <div
                         key={`${seatKey}-firstClass`}
                         className='seat-firstClass'
-                        onClick={() => {seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'FirstClass')}}
+                        onClick={() => { seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'FirstClass') }}
                       >{`${dataRow.name}${Number(seatIndex)}`}</div>
                     );
                   }
                   else if (seatIndex >= 6 && isDisabled === false) {
                     return (
                       <div
-                      key={`${dataRow.name}-${seatIndex}-secondClass`}
-                      className={`seat-secondClass`}
-                      onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'SecondClass')}
-                    >
-                      {`${dataRow.name}${seatIndex + 1}`}
-                    </div>
-                    
+                        key={`${dataRow.name}-${seatIndex}-secondClass`}
+                        className={`seat-secondClass`}
+                        onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'SecondClass')}
+                      >
+                        {`${dataRow.name}${seatIndex + 1}`}
+                      </div>
+
                     );
                   }
                   else {
@@ -311,7 +311,7 @@ const BookingComponent = () => {
             ))}
           </div>
 
-          {selectedSeatsCount > 0  && (
+          {selectedSeatsCount > 0 && (
             <p className='text'>
               You have booked <span id='count'>{selectedSeatsCount}</span>{' '}
               for a price of RS.

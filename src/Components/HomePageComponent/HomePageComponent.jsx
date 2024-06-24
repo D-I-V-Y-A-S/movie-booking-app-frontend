@@ -16,7 +16,7 @@ const HomePageComponent = () => {
       document.body.style.backgroundColor = "silver";
       axios.get('https://mern-movie-booking-backend-task.vercel.app/api/v1/movie', {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `${token}`
         }
       })
         .then(response => {
