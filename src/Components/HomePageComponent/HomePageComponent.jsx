@@ -35,7 +35,7 @@ const HomePageComponent = () => {
 
   const searchHandler = (event) => {
     setSearchInput(event.target.value)
-    axios.get(`http://localhost:3500/api/v1/movie/${searchInput}` ,{
+    axios.get(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/${searchInput}` ,{
       headers: {
         Authorization: `Bearer ${token}`
       }
