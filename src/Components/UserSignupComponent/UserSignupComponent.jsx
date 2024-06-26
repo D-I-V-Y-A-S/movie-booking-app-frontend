@@ -3,6 +3,7 @@ import './UserSignupComponent.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import backgroundImage from './movie.jpg';
+import { BE_URL } from '../../info';
 
 const UserSignupComponent = () => {
   const [userData, setUserData] = useState({
@@ -26,7 +27,7 @@ const UserSignupComponent = () => {
   const formSubmitHandler = (event) => {
     event.preventDefault()
     axios
-      .post(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/userSignUp`, { data: userData })
+      .post(`${BE_URL}/userSignUp`, { data: userData })
       .then(response => {
         alert(`Successfully created account for ${response.data.firstName} ${response.data.lastName}`)
         window.location.href = '/'

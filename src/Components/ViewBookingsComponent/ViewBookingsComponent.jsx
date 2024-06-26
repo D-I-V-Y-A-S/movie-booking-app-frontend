@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './ViewBookingsComponent.css'
+import { BE_URL } from '../../info'
 
 const ViewBookingsComponent = () => {
     const [bookings, setBookings] = useState([]);
@@ -11,7 +12,7 @@ const ViewBookingsComponent = () => {
         if (token) {
             document.body.style.backgroundColor = "skyblue";
             // console.log("yes")
-            axios.get('https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/viewBookings/tickets', {
+            axios.get(`${BE_URL}/viewBookings/tickets`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './UserLoginComponent.css'
 import axios from 'axios'
 import backgroundImage from './movie.jpg';
+import { BE_URL } from '../../info';
 
 const UserLoginComponent = () => {
   const [email, setEmail] = useState('')
@@ -23,7 +24,7 @@ const UserLoginComponent = () => {
   const formSubmitHandler = (event) => {
     event.preventDefault()
     axios
-      .post(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/userLogin`, { userEmail: email, userPassword: password })
+      .post(`${BE_URL}/userLogin`, { userEmail: email, userPassword: password })
       .then(response => {
         alert(`Welcome ${response.data.firstName} ${response.data.lastName}`)
         window.localStorage.setItem('token', response.data.token)

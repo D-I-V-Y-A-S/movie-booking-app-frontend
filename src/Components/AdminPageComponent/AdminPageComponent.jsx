@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import MoviesPageComponent from './MoviesPageComponent'
+import { BE_URL } from '../../info'
 
 const AdminPageComponent = () => {
   const [movieData, setMovieData] = useState([])
@@ -13,7 +14,7 @@ const AdminPageComponent = () => {
   useEffect(() => {
     if (token) {
       document.body.style.backgroundColor = "silver";
-      axios.get('https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/admin', {
+      axios.get(`${BE_URL}/admin`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -34,7 +35,7 @@ const AdminPageComponent = () => {
 
   const searchHandler = (event) => {
     setSearchInput(event.target.value)
-    axios.get(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/admin/${searchInput}`,{ headers: {
+    axios.get(`${BE_URL}/admin/${searchInput}`,{ headers: {
       Authorization: `Bearer ${token}`
     }})
       .then(response => setFilteredMovies(response.data))

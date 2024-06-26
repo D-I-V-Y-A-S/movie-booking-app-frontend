@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './AdminSignupComponent.css'
 import axios from 'axios'
 import backgroundImage from './movie.jpg'
+import { BE_URL } from '../../info'
 
 const AdminSignupComponent = () => {
   const [adminData, setadminData] = useState({
@@ -26,7 +27,7 @@ const AdminSignupComponent = () => {
     console.log("HI")
     event.preventDefault()
     axios
-      .post(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/adminSignUp`, { data: adminData })
+      .post(`${BE_URL}/adminSignUp`, { data: adminData })
       .then(response => {
         alert(`Successfully created account for ${response.data.firstName} ${response.data.lastName}`)
         window.location.href = '/adminLogin'

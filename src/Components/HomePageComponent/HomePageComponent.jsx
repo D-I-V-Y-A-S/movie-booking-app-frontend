@@ -3,6 +3,7 @@ import './HomePageComponent.css'
 import DisplayComponent from './DisplayComponent'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { BE_URL } from '../../info'
 
 const HomePageComponent = () => {
   const [movieData, setMovieData] = useState([])
@@ -14,15 +15,15 @@ const HomePageComponent = () => {
   useEffect(() => {
     if (token) {
       document.body.style.backgroundColor = "silver";
-      axios.get('https://mern-movie-booking-backend-task.vercel.app/api/v1/movie', {
+      axios.get(`${BE_URL}`, {
         headers: {
-          Authorization: `${token}`
+          Authorization: `Bearer ${token}`
         }
       })
         .then(response => {
           if (response.status === 200) {
             setMovieData(response.data)
-            console.log(response.data)
+            // console.log(response.data)
           }
         })
         .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
@@ -35,7 +36,7 @@ const HomePageComponent = () => {
 
   const searchHandler = (event) => {
     setSearchInput(event.target.value)
-    axios.get(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/${searchInput}` ,{
+    axios.get(`${BE_URL}/${searchInput}` ,{
       headers: {
         Authorization: `Bearer ${token}`
       }

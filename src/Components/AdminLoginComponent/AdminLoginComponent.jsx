@@ -3,6 +3,7 @@ import './AdminLoginComponent.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import backgroundImage from './movie.jpg'
+import { BE_URL } from '../../info'
 
 const AdminLoginComponent = () => {
   const [email, setEmail] = useState('')
@@ -23,7 +24,7 @@ const AdminLoginComponent = () => {
   const formSubmitHandler = (event) => {
     event.preventDefault()
     axios
-      .post(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/adminLogin`, { adminEmail: email, adminPassword: password })
+      .post(`${BE_URL}/adminLogin`, { adminEmail: email, adminPassword: password })
       .then(response => {
         alert(`Welcome ${response.data.firstName} ${response.data.lastName}`)
         window.localStorage.setItem('token', response.data.token)

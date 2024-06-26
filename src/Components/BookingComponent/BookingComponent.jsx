@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './BookingComponent.css';
 import { Link } from 'react-router-dom';
+import { BE_URL } from '../../info';
 
 const BookingComponent = () => {
   const token = window.localStorage.getItem('token');
@@ -33,7 +34,7 @@ const BookingComponent = () => {
     location: '',
     gender: ''
   });
-
+const [userSelectedSeats,setUserSelectedSeats]=useState([])
   const { firstName, lastName, slot, location, date, gender } = bookingDetail
 
   const [seatSelected, setSeatSelected] = useState([])
@@ -62,13 +63,14 @@ const BookingComponent = () => {
 
   useEffect(() => {
     if (location && slot && movieName && date) {
-      axios.get(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/user/ticket/seatsBooked/${location}`, {
+      axios.get(`${BE_URL}/user/ticket/seatsBooked/${location}`, {
         params: {
           movieName: movieName, slot: slot, date: date
         }
       })
         .then(response => {
           setDisabledSeats(response.data)
+          console.log(disabledSeats)
         }
         )
         .catch((error) => { console.log(`Status : ${error.response.status} - ${error.response.data.message}`) })
@@ -89,6 +91,7 @@ const BookingComponent = () => {
       } else {
         setFair(prev => prev - 200);
       }
+      setUserSelectedSeats(prev => prev.filter(item => item !== seatName));
     } else {
       setSeatSelected(prev => [
         ...prev,
@@ -96,8 +99,12 @@ const BookingComponent = () => {
           seatName: seatName,
           seatType: seatType,
           movieName: movieName,
+          gender:gender
         }
       ]);
+
+        console.log(userSelectedSeats)
+      console.log(seatSelected)
       setSelectedSeatsCount(prev => prev + 1);
       if (seatType === 'Balcony') {
         setFair(prev => prev + 300);
@@ -106,6 +113,13 @@ const BookingComponent = () => {
       } else {
         setFair(prev => prev + 200);
       }
+      console.log(userSelectedSeats.includes(seatName)?true:false);
+      setUserSelectedSeats(prev => [
+        ...prev,
+        seatName
+        
+      ]);
+      console.log(userSelectedSeats)
     }
   };
 
@@ -114,7 +128,7 @@ const BookingComponent = () => {
     console.log(seatSelected)
     console.log(bookingDetail)
     await axios
-      .post(`https://mern-movie-booking-backend-task.vercel.app/api/v1/movie/booktickets`, { bookingDetail: bookingDetail, data: seatSelected },
+      .post(`${BE_URL}/booktickets`, { bookingDetail: bookingDetail, data: seatSelected },
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -258,29 +272,30 @@ const BookingComponent = () => {
                   const seatKey = `row${rowIndex}-seat${seatIndex}`;
                   const seatName = `${dataRow.name}${seatIndex + 1}`
                   const isDisabled = disabledSeats.some(seat => seat.seatName === seatName);
+
                   // console.log(isDisabled,seatName)
                   if (seatIndex < 3 && isDisabled === false) {
                     return (
                       <div
                         key={`${seatKey}-balcony`}
-                        className='seat'
+                        className={` ${userSelectedSeats.includes(dataRow.name+Number(seatIndex+1))?"seat-select" : "seat"}`}
                         onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'Balcony')}
-                      >{`${dataRow.name}${Number(seatIndex)}`}</div>
+                      >{`${dataRow.name}${Number(seatIndex)+1}`}</div>
                     )
                   } else if (seatIndex >= 3 && seatIndex < 6 && isDisabled === false) {
                     return (
                       <div
                         key={`${seatKey}-firstClass`}
-                        className='seat-firstClass'
+                        className={` ${userSelectedSeats.includes(dataRow.name+Number(seatIndex+1))?"seat-select" : "seat-firstClass"}`}
                         onClick={() => { seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'FirstClass') }}
-                      >{`${dataRow.name}${Number(seatIndex)}`}</div>
+                      >{`${dataRow.name}${Number(seatIndex)+1}`}</div>
                     );
                   }
                   else if (seatIndex >= 6 && isDisabled === false) {
                     return (
                       <div
                         key={`${dataRow.name}-${seatIndex}-secondClass`}
-                        className={`seat-secondClass`}
+                        className={` ${userSelectedSeats.includes(dataRow.name+Number(seatIndex+1))?"seat-select" : "seat-secondClass"}`}
                         onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'SecondClass')}
                       >
                         {`${dataRow.name}${seatIndex + 1}`}
@@ -288,28 +303,30 @@ const BookingComponent = () => {
 
                     );
                   }
-                  else {
-                    return (
-                      <div key={`${seatKey}-gender`}>
-                        {disabledSeats.length > 0 && disabledSeats[0].gender === 'Male' && (
-                          <div key={`${seatKey}-male`} className='no-seat'><span style={{ color: 'black' }}>M</span>
-                          </div>
-                        )}
-                        {disabledSeats.length > 0 && disabledSeats[0].gender === 'Female' && (
-                          <div key={`${seatKey}-female`} className='no-seat-F'><span style={{ color: 'black' }}>F</span>
-                          </div>
-                        )}
-                        {disabledSeats.length > 0 && disabledSeats[0].gender === 'Other' && (
-                          <div key={`${seatKey}-other`} className='no-seat-o'><span style={{ color: 'black' }}>O</span>
-                          </div>
-                        )}
-                      </div>
-                    )
+                 
+                  else if (isDisabled) {
+                    const disabledSeat = disabledSeats.find(seat => seat.seatName === seatName);            
+                    if (disabledSeat) {
+                      let genderClass = '';
+                      if (disabledSeat.gender === 'Male') {
+                        genderClass = 'no-seat';
+                      } else if (disabledSeat.gender === 'Female') {
+                        genderClass = 'no-seat-F';
+                      } else if (disabledSeat.gender === 'Other') {
+                        genderClass = 'no-seat-o';
+                      }
+                      return (
+                        <div key={`${seatKey}-disabled`} className={genderClass}>
+                          <span style={{ color: 'black' }}>{disabledSeat.gender.charAt(0)}</span>
+                        </div>
+                      );
+                    }
                   }
+                  return null; 
                 })}
               </div>
             ))}
-          </div>
+            </div>
 
           {selectedSeatsCount > 0 && (
             <p className='text'>
