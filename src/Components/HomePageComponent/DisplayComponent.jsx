@@ -9,7 +9,7 @@ const DisplayComponent = ({ item }) => {
   }
   return (
     <React.Fragment>
-      <img src={`${BE_URL}/image/${item.movieImage}`} width="200px" height="300px" style={{ verticalAlign: "top" }} />
+      <img src={`https://raw.githubusercontent.com/D-I-V-Y-A-S/movie-booking-app-backend/main/images/${item.movieImage}`} width="200px" height="300px" style={{ verticalAlign: "top" }} />
       <div className="sub-container">
         <i className="bi bi-star-fill text-danger"></i>
         <span style={{ marginLeft: "10px" }}>{item.imdbRating}/10</span>
