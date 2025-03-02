@@ -74,7 +74,7 @@ const AddMoviesComponent = () => {
     formData.append('movieImage', movieImage)
     console.log(formData)
 
-    await axios.post('http://localhost:3500/api/v1/movie/addMovie', formData)
+    await axios.post(`${BE_URL}/addMovie`, formData)
       .then(response => {
         alert(JSON.stringify(response.data.message))
         window.location.href = '/adminPage'

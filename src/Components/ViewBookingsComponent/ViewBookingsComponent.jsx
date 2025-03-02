@@ -11,7 +11,6 @@ const ViewBookingsComponent = () => {
     useEffect(() => {
         if (token) {
             document.body.style.backgroundColor = "skyblue";
-            // console.log("yes")
             axios.get(`${BE_URL}/viewBookings/tickets`, {
                 headers: {
                     Authorization: `Bearer ${token}`

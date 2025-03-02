@@ -15,6 +15,7 @@ const UserLoginComponent = () => {
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
+    console.log(`${BE_URL}`)
   })
 
   const passwordHandler = (event) => {
@@ -23,6 +24,7 @@ const UserLoginComponent = () => {
 
   const formSubmitHandler = (event) => {
     event.preventDefault()
+   
     axios
       .post(`${BE_URL}/userLogin`, { userEmail: email, userPassword: password })
       .then(response => {
@@ -85,3 +87,7 @@ const UserLoginComponent = () => {
 }
 
 export default UserLoginComponent
+
+
+//username:divyacprime@gmail.com
+//Password:Divya

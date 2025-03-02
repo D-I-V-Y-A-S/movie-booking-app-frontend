@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import './HomePageComponent.css'
+import { BE_URL } from '../../info'
 
 const DisplayComponent = ({ item }) => {
-  
+  console.log(item.movieImage)
   const bookingHandler=()=>{
-    window.location.href=`/booking?movieName=${item.movieName}`
+    location.href=`/booking?movieName=${item.movieName}`
   }
   return (
     <React.Fragment>
-      <img src={item.movieImage} width="200px" height="300px" style={{ verticalAlign: "top" }} />
-
+      <img src={`${BE_URL}/image/${item.movieImage}`} width="200px" height="300px" style={{ verticalAlign: "top" }} />
       <div className="sub-container">
         <i className="bi bi-star-fill text-danger"></i>
         <span style={{ marginLeft: "10px" }}>{item.imdbRating}/10</span>

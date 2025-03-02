@@ -26,6 +26,7 @@ const BookingComponent = () => {
       name: "F",
     }
   ]
+
   const [bookingDetail, setBookingDetail] = useState({
     firstName: '',
     lastName: '',
@@ -34,11 +35,17 @@ const BookingComponent = () => {
     location: '',
     gender: ''
   });
-const [userSelectedSeats,setUserSelectedSeats]=useState([])
+
+  //seats booked by user already
+  const [userSelectedSeats, setUserSelectedSeats] = useState([])
+
   const { firstName, lastName, slot, location, date, gender } = bookingDetail
 
+//current seat booked by user
   const [seatSelected, setSeatSelected] = useState([])
+
   const [movieName, setMovieName] = useState('')
+
 
   const [selectedSeatsCount, setSelectedSeatsCount] = useState(0)
   const [fair, setFair] = useState(0)
@@ -47,8 +54,9 @@ const [userSelectedSeats,setUserSelectedSeats]=useState([])
 
   useEffect(() => {
     if (token) {
-      document.body.style.backgroundColor = "rgb(13, 122, 164)";
+      document.body.style.backgroundColor = "white";
     }
+
     const params = new URLSearchParams(window.location.search);
     const movieNameParam = params.get('movieName');
     setMovieName(movieNameParam);
@@ -74,14 +82,15 @@ const [userSelectedSeats,setUserSelectedSeats]=useState([])
         }
         )
         .catch((error) => { console.log(`Status : ${error.response.status} - ${error.response.data.message}`) })
-
     }
   }, [location, slot, movieName, date])
 
   const seatHandler = (seatName, seatType) => {
+    //if i select a new seat it checks if its already existing so it can remove it 
     const isSeatSelected = seatSelected.some(seat => seat.seatName === seatName);
 
     if (isSeatSelected) {
+      
       setSeatSelected(prev => prev.filter(item => item.seatName !== seatName));
       setSelectedSeatsCount(prev => prev - 1);
       if (seatType === 'Balcony') {
@@ -92,18 +101,19 @@ const [userSelectedSeats,setUserSelectedSeats]=useState([])
         setFair(prev => prev - 200);
       }
       setUserSelectedSeats(prev => prev.filter(item => item !== seatName));
-    } else {
+    } 
+    else {
       setSeatSelected(prev => [
         ...prev,
         {
           seatName: seatName,
           seatType: seatType,
           movieName: movieName,
-          gender:gender
+          gender: gender
         }
       ]);
 
-        console.log(userSelectedSeats)
+      console.log(userSelectedSeats)
       console.log(seatSelected)
       setSelectedSeatsCount(prev => prev + 1);
       if (seatType === 'Balcony') {
@@ -113,11 +123,11 @@ const [userSelectedSeats,setUserSelectedSeats]=useState([])
       } else {
         setFair(prev => prev + 200);
       }
-      console.log(userSelectedSeats.includes(seatName)?true:false);
+      console.log(userSelectedSeats.includes(seatName) ? true : false);
       setUserSelectedSeats(prev => [
         ...prev,
         seatName
-        
+
       ]);
       console.log(userSelectedSeats)
     }
@@ -125,8 +135,9 @@ const [userSelectedSeats,setUserSelectedSeats]=useState([])
 
   const formHandler = async (event) => {
     event.preventDefault();
-    console.log(seatSelected)
-    console.log(bookingDetail)
+
+    // console.log(seatSelected)
+    // console.log(bookingDetail)
     await axios
       .post(`${BE_URL}/booktickets`, { bookingDetail: bookingDetail, data: seatSelected },
         {
@@ -145,12 +156,17 @@ const [userSelectedSeats,setUserSelectedSeats]=useState([])
       })
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
   }
-
+//2024-06-22T12:00:00.000Z
   const today = new Date();
+  // console.log(today) -->Fri Jun 28 2024 09:32:55
   const todayString = today.toISOString().split('T')[0];
+  // console.log(todayString)-->2024-06-28
   const nextMonth = new Date(today);
+  //user can book movie only to 1 month
   nextMonth.setMonth(nextMonth.getMonth() + 1);
+  // console.log(nextMonth)-->Sun Jul 28 2024 09:34:32
   const nextMonthString = nextMonth.toISOString().split('T')[0];
+// console.log(nextMonthString)-->2024-06-28
 
   return (
     <React.Fragment>
@@ -278,24 +294,24 @@ const [userSelectedSeats,setUserSelectedSeats]=useState([])
                     return (
                       <div
                         key={`${seatKey}-balcony`}
-                        className={` ${userSelectedSeats.includes(dataRow.name+Number(seatIndex+1))?"seat-select" : "seat"}`}
+                        className={` ${userSelectedSeats.includes(dataRow.name + Number(seatIndex + 1)) ? "seat-select" : "seat"}`}
                         onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'Balcony')}
-                      >{`${dataRow.name}${Number(seatIndex)+1}`}</div>
+                      >{`${dataRow.name}${Number(seatIndex) + 1}`}</div>
                     )
                   } else if (seatIndex >= 3 && seatIndex < 6 && isDisabled === false) {
                     return (
                       <div
                         key={`${seatKey}-firstClass`}
-                        className={` ${userSelectedSeats.includes(dataRow.name+Number(seatIndex+1))?"seat-select" : "seat-firstClass"}`}
+                        className={` ${userSelectedSeats.includes(dataRow.name + Number(seatIndex + 1)) ? "seat-select" : "seat-firstClass"}`}
                         onClick={() => { seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'FirstClass') }}
-                      >{`${dataRow.name}${Number(seatIndex)+1}`}</div>
+                      >{`${dataRow.name}${Number(seatIndex) + 1}`}</div>
                     );
                   }
                   else if (seatIndex >= 6 && isDisabled === false) {
                     return (
                       <div
                         key={`${dataRow.name}-${seatIndex}-secondClass`}
-                        className={` ${userSelectedSeats.includes(dataRow.name+Number(seatIndex+1))?"seat-select" : "seat-secondClass"}`}
+                        className={` ${userSelectedSeats.includes(dataRow.name + Number(seatIndex + 1)) ? "seat-select" : "seat-secondClass"}`}
                         onClick={() => seatHandler(`${dataRow.name}${Number(seatIndex) + 1}`, 'SecondClass')}
                       >
                         {`${dataRow.name}${seatIndex + 1}`}
@@ -303,9 +319,9 @@ const [userSelectedSeats,setUserSelectedSeats]=useState([])
 
                     );
                   }
-                 
+
                   else if (isDisabled) {
-                    const disabledSeat = disabledSeats.find(seat => seat.seatName === seatName);            
+                    const disabledSeat = disabledSeats.find(seat => seat.seatName === seatName);
                     if (disabledSeat) {
                       let genderClass = '';
                       if (disabledSeat.gender === 'Male') {
@@ -322,11 +338,11 @@ const [userSelectedSeats,setUserSelectedSeats]=useState([])
                       );
                     }
                   }
-                  return null; 
+                  return null;
                 })}
               </div>
             ))}
-            </div>
+          </div>
 
           {selectedSeatsCount > 0 && (
             <p className='text'>
