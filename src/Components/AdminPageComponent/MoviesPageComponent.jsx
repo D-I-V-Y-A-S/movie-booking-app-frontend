@@ -1,11 +1,12 @@
 import React from 'react'
+import { BE_URL } from '../../info'
 
 const MoviesPageComponent = ({ item }) => {
 
   return (
     <React.Fragment>
       <p>movieId:{item.movieId}</p>
-      <img src={item.movieImage} width="200px" height="300px" style={{ verticalAlign: "top" }} />
+      <img src={`${BE_URL}/image/${item.movieImage}`} width="200px" height="300px" style={{ verticalAlign: "top" }} />
 
       <div className="sub-container">
         <i className="bi bi-star-fill text-danger"></i>

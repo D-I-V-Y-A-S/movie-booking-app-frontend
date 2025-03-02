@@ -2,11 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './ViewBookingsComponent.css'
 import { BE_URL } from '../../info'
+import { useNavigate } from "react-router-dom";
 
 const ViewBookingsComponent = () => {
+    const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
     const [nobookings,setNoBookings]=useState('')
-    const token = window.localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         if (token) {
@@ -27,7 +29,7 @@ const ViewBookingsComponent = () => {
             .catch(error => console.log(error.response.data));
         } else {
             alert("Login to view bookings!!");
-               window.location.href='/'
+             navigate('/');
         }
     }, []);
 

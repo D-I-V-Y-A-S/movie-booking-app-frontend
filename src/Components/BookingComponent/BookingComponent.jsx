@@ -3,9 +3,11 @@ import axios from 'axios';
 import './BookingComponent.css';
 import { Link } from 'react-router-dom';
 import { BE_URL } from '../../info';
+import { useNavigate } from "react-router-dom";
 
 const BookingComponent = () => {
-  const token = window.localStorage.getItem('token');
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
   const seatArray = [
     {
       name: "A"
@@ -57,7 +59,7 @@ const BookingComponent = () => {
       document.body.style.backgroundColor = "white";
     }
 
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(location.search);
     const movieNameParam = params.get('movieName');
     setMovieName(movieNameParam);
     console.log(movieName)
@@ -148,7 +150,7 @@ const BookingComponent = () => {
       .then(response => {
         if (response.status === 201) {
           alert(response.data.message)
-          window.location.href = '/moviesPage'
+          navigate('/moviesPage');
         }
         else {
           alert(response.data.message)

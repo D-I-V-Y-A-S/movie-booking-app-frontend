@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import MoviesPageComponent from './MoviesPageComponent'
 import { BE_URL } from '../../info'
+import { useNavigate } from "react-router-dom";
 
 const AdminPageComponent = () => {
+  const navigate = useNavigate();
   const [movieData, setMovieData] = useState([])
   const [searchInput, setSearchInput] = useState('')
   const [filteredMovies, setFilteredMovies] = useState([])
 
-  const token = window.localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (token) {
@@ -29,7 +31,7 @@ const AdminPageComponent = () => {
     }
     else {
       alert("Login to view moviesPage!!");
-      window.location.href = '/adminLogin'
+      navigate('/adminLogin');
     }
   }, [])
 

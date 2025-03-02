@@ -4,35 +4,67 @@ import DisplayComponent from './DisplayComponent'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { BE_URL } from '../../info'
+import { useNavigate } from "react-router-dom";
 
 const HomePageComponent = () => {
+  const navigate = useNavigate();
   const [movieData, setMovieData] = useState([])
   const [searchInput, setSearchInput] = useState('')
   const [filteredMovies, setFilteredMovies] = useState([])
 
-  const token = window.localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+
+  // useEffect(() => {
+  //   if (token) {
+  //     document.body.style.backgroundColor = "silver";
+  //     axios.get(`${BE_URL}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     })
+  //       .then(response => {
+  //         if (response.status === 200) {
+  //           setMovieData(response.data)
+  //           // console.log(response.data)
+  //         }
+  //       })
+  //       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
+  //   }
+  //   else {
+  //     alert("Login to view movies!!");
+  //     navigate('/');
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (token) {
-      document.body.style.backgroundColor = "silver";
+      document.body.style.backgroundColor = "silver";  // Reset background
+      document.body.style.backgroundImage = "none";    // Clear previous image
+  
       axios.get(`${BE_URL}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       })
-        .then(response => {
-          if (response.status === 200) {
-            setMovieData(response.data)
-            // console.log(response.data)
-          }
-        })
-        .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
-    }
-    else {
+      .then(response => {
+        if (response.status === 200) {
+          setMovieData(response.data);
+        }
+      })
+      .catch((error) => { 
+        alert(`Status : ${error.response.status} - ${error.response.data.message}`); 
+      });
+  
+    } else {
       alert("Login to view movies!!");
-      window.location.href = '/'
+      navigate('/');
     }
-  }, [])
+  
+    return () => {
+      document.body.style.backgroundImage = "none"; // Cleanup when component unmounts
+    };
+  }, []);
+  
 
   const searchHandler = (event) => {
     setSearchInput(event.target.value)

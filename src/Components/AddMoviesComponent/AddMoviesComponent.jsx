@@ -3,9 +3,11 @@ import './AddMoviesComponent.css'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { BE_URL } from '../../info'
+import { useNavigate } from "react-router-dom";
 
 const AddMoviesComponent = () => {
-  const token = window.localStorage.getItem('token');
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (token) {
@@ -24,7 +26,7 @@ const AddMoviesComponent = () => {
     }
     else {
       alert("Login to add movies!!");
-      window.location.href = '/adminLogin'
+      navigate('/adminLogin');
     }
   }, []);
   const [movieInfo, setMovieInfo] = useState({
@@ -77,7 +79,7 @@ const AddMoviesComponent = () => {
     await axios.post(`${BE_URL}/addMovie`, formData)
       .then(response => {
         alert(JSON.stringify(response.data.message))
-        window.location.href = '/adminPage'
+        navigate('/adminPage');
       }
       )
       .catch(error => alert(JSON.stringify(error.response.data)))

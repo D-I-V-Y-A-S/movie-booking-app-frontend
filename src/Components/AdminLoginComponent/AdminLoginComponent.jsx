@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import backgroundImage from './movie.jpg'
 import { BE_URL } from '../../info'
+import { useNavigate } from "react-router-dom";
 
 const AdminLoginComponent = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -27,8 +29,8 @@ const AdminLoginComponent = () => {
       .post(`${BE_URL}/adminLogin`, { adminEmail: email, adminPassword: password })
       .then(response => {
         alert(`Welcome ${response.data.firstName} ${response.data.lastName}`)
-        window.localStorage.setItem('token', response.data.token)
-        window.location.href = "/adminPage"
+        localStorage.setItem('token', response.data.token)
+        navigate("/adminPage");
       })
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
   }
@@ -85,3 +87,6 @@ const AdminLoginComponent = () => {
 }
 
 export default AdminLoginComponent
+
+// username:divya20@gmail.com 
+// password:Divya

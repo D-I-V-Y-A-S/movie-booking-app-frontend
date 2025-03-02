@@ -4,8 +4,10 @@ import './AdminSignupComponent.css'
 import axios from 'axios'
 import backgroundImage from './movie.jpg'
 import { BE_URL } from '../../info'
+import { useNavigate } from "react-router-dom";
 
 const AdminSignupComponent = () => {
+  const navigate = useNavigate();
   const [adminData, setadminData] = useState({
     firstName: '',
     lastName: '',
@@ -30,7 +32,7 @@ const AdminSignupComponent = () => {
       .post(`${BE_URL}/adminSignUp`, { data: adminData })
       .then(response => {
         alert(`Successfully created account for ${response.data.firstName} ${response.data.lastName}`)
-        window.location.href = '/adminLogin'
+        navigate('/adminLogin');
       })
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
   }

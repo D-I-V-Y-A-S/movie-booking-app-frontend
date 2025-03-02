@@ -4,8 +4,10 @@ import './UserLoginComponent.css'
 import axios from 'axios'
 import backgroundImage from './movie.jpg';
 import { BE_URL } from '../../info';
+import { useNavigate } from "react-router-dom";
 
 const UserLoginComponent = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -29,8 +31,8 @@ const UserLoginComponent = () => {
       .post(`${BE_URL}/userLogin`, { userEmail: email, userPassword: password })
       .then(response => {
         alert(`Welcome ${response.data.firstName} ${response.data.lastName}`)
-        window.localStorage.setItem('token', response.data.token)
-        window.location.href = "/moviesPage"
+        localStorage.setItem('token', response.data.token)
+        navigate("/moviesPage");
       })
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
   }

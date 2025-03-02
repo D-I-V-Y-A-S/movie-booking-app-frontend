@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import backgroundImage from './movie.jpg';
 import { BE_URL } from '../../info';
+import { useNavigate } from "react-router-dom";
 
 const UserSignupComponent = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     firstName: '',
     lastName: '',
@@ -30,7 +32,7 @@ const UserSignupComponent = () => {
       .post(`${BE_URL}/userSignUp`, { data: userData })
       .then(response => {
         alert(`Successfully created account for ${response.data.firstName} ${response.data.lastName}`)
-        window.location.href = '/'
+        navigate('/');
       })
       .catch((error) => { alert(`Status : ${error.response.status} - ${error.response.data.message}`) })
   }
